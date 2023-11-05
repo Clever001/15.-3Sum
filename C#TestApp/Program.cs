@@ -20,8 +20,15 @@
             {
                 int lack = -nums[first];
                 HashSet<int> lacks = new HashSet<int> ();
+                bool skip = false;
+                int skipValue = 0;
                 for (int current = first + 1; current < nums.Length; current++)
                 {
+                    if (skip) 
+                    {
+                        if (nums[current] != skipValue) skip = false;
+                        else continue;
+                    }
                     if (lacks.Contains(lack - nums[current]))
                     {
                         List<int> partOfAns = new List<int> { nums[first], lack - nums[current], nums[current] };
@@ -35,7 +42,12 @@
                                 break;
                             }
                         }
-                        if (!contains) ans.Add(partOfAns);
+                        if (!contains) 
+                        {
+                            ans.Add(partOfAns);
+                            skip = true;
+                            skipValue = nums[current];
+                        }
                     }
                     if (!lacks.Contains(nums[current])) lacks.Add(nums[current]);
                 }
