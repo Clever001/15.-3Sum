@@ -4,7 +4,7 @@
     {
         public static IList<IList<int>> ThreeSum(int[] nums)
         {
-            static bool Equals(IList<int> first, List<int> last)
+            static bool Equals(IList<int> first, IList<int> last)
             {
                 if (first.Count != last.Count) return false;
                 for (int i = 0; i < first.Count; i++)
@@ -25,8 +25,8 @@
                     if (current == first) continue;
                     if (lacks.Contains(lack - nums[current]))
                     {
-                        List<int> partOfAns = new List<int> { nums[first], lack - nums[current], nums[current] };
-                        partOfAns.Sort();
+                        IList<int> partOfAns = new List<int> { nums[first], lack - nums[current], nums[current] };
+                        partOfAns = partOfAns.OrderBy(r => r).ToList();
                         bool contains = false;
                         foreach (IList<int> i in ans) 
                         {
@@ -36,11 +36,11 @@
                                 break;
                             }
                         }
-                        if (!contains) ans.Add(partOfAns);
+                        if (!contains)
+                            ans.Add(partOfAns);
                     }
                     if (!lacks.Contains(nums[current])) lacks.Add(nums[current]);
                 }
-                lacks.Clear();
             }
             return ans;
         }
