@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Text;
-
-namespace C_TestApp
+﻿namespace C_TestApp
 {
     internal class Program
     {
