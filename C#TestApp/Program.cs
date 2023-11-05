@@ -7,7 +7,7 @@
             static bool Equals(IList<int> first, List<int> last)
             {
                 if (first.Count != last.Count) return false;
-                for (int i = 0; i < first.Count; i++)
+                for (byte i = 0; i < first.Count; i++)
                 {
                     if (first[i] != last[i]) return false;
                 }
@@ -16,13 +16,12 @@
 
             Array.Sort(nums);
             List<IList<int>> ans = new List<IList<int>> ();
-            for (int first = 0; first < nums.Length; first++)
+            for (int first = 0; first < nums.Length - 2; first++)
             {
                 int lack = -nums[first];
                 HashSet<int> lacks = new HashSet<int> ();
-                for (int current = 0; current < nums.Length; current++)
+                for (int current = first + 1; current < nums.Length; current++)
                 {
-                    if (current == first) continue;
                     if (lacks.Contains(lack - nums[current]))
                     {
                         List<int> partOfAns = new List<int> { nums[first], lack - nums[current], nums[current] };
