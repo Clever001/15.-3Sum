@@ -4,54 +4,29 @@
     {
         public static IList<IList<int>> ThreeSum(int[] nums)
         {
-            static bool Equals(IList<int> first, List<int> last)
-            {
-                if (first.Count != last.Count) return false;
-                for (byte i = 0; i < first.Count; i++)
-                {
-                    if (first[i] != last[i]) return false;
-                }
-                return true;
-            }
-
             Array.Sort(nums);
-            List<IList<int>> ans = new List<IList<int>> ();
+            IList<IList<int>> ans = new List<IList<int>>();
             for (int first = 0; first < nums.Length - 2; first++)
             {
-                int lack = -nums[first];
-                HashSet<int> lacks = new HashSet<int> ();
-                bool skip = false;
-                int skipValue = 0;
-                for (int current = first + 1; current < nums.Length; current++)
+                if (first == 0 || first > 0 && nums[first - 1] != nums[first])
                 {
-                    if (skip) 
+                    int second = first + 1, third = nums.Length - 1;
+                    int target = -nums[first];
+                    while (second < third)
                     {
-                        if (nums[current] != skipValue) skip = false;
-                        else continue;
-                    }
-                    if (lacks.Contains(lack - nums[current]))
-                    {
-                        List<int> partOfAns = new List<int> { nums[first], lack - nums[current], nums[current] };
-                        partOfAns.Sort();
-                        bool contains = false;
-                        foreach (IList<int> i in ans) 
+                        if (nums[second] + nums[third] > target) third--;
+                        else if (nums[second] + nums[third] < target) second++;
+                        else
                         {
-                            if (Equals(i, partOfAns))
-                            {
-                                contains = true;
-                                break;
-                            }
-                        }
-                        if (!contains) 
-                        {
+                            IList<int> partOfAns = new List<int> { nums[first], nums[second], nums[third] };
                             ans.Add(partOfAns);
-                            skip = true;
-                            skipValue = nums[current];
+                            second++;
+                            third--;
+                            while (second + 1 < nums.Length && nums[second] == nums[second - 1]) second++;
+                            while (third > 0 && nums[third] == nums[third + 1]) third--;
                         }
                     }
-                    if (!lacks.Contains(nums[current])) lacks.Add(nums[current]);
                 }
-                lacks.Clear();
             }
             return ans;
         }
